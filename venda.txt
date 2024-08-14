@@ -1,0 +1,2 @@
+banana|5|frutas|3|Heitor|Max|12/08/24
+abacate|9|frutas|2|Heitor|Max|12/08/24

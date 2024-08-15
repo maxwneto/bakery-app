@@ -52,6 +52,15 @@ class ControllerCategoria:
         
         else:
             print('A categoria que você deseja alterar não existe!')
+    def mostrarCategorias(self):
+        categorias = DaoCategoria.ler()
+        if len(categorias) == 0:
+            print('Categoria vazia!')
+        else:
+            for cat in categorias:
+                print(f'Categoria: {cat.categoria}')
+
+
 
 a = ControllerCategoria()
-a.alterarCategoria('Ortifruti','Frutas')
+a.mostrarCategorias()

@@ -15,23 +15,22 @@ class ControllerCategoria:
             print('Categoria cadastrada com sucesso!')
         else:
             print('Categoria informada já existe!')
+    
     def removerCategoria(self, categoriaRemover):
         x = DaoCategoria.ler()
-        cat = list(filter(lambda x: x.categoria == categoriaRemover, x))
+        cat = list(filter(lambda item: item.categoria == categoriaRemover, x))
         
         if len(cat) == 0:
-            print('A categoria que você deseja remover não existe.')
+            print(f"A categoria '{categoriaRemover}' que você deseja remover não existe.")
         else:
             for i in range(len(x)):
-                if x[i].categoria ==  categoriaRemover:
+                if x[i].categoria == categoriaRemover:
                     del x[i]
-                    break
-            print('Categoria removida com sucesso')
+                    print(f"Categoria '{categoriaRemover}' removida com sucesso")
+                    break            
 
-            with open('categoria.txt','w') as file_object:
-                for i in x:
-                    file_object.writelines(i.categoria)
-                    file_object.writelines('\n')
+            DaoCategoria.atualizarArquivo(x)
+
     def alterarCategoria(self, alterarCategoria, categoriaDesejada):
         x = DaoCategoria.ler()
         cat = list(filter( lambda c: c.categoria == alterarCategoria, x))
@@ -52,6 +51,7 @@ class ControllerCategoria:
         
         else:
             print('A categoria que você deseja alterar não existe!')
+    
     def mostrarCategorias(self):
         categorias = DaoCategoria.ler()
         if len(categorias) == 0:
@@ -78,5 +78,25 @@ class ControllerEstoque:
         else:
             print('Categoria inexistente.')
 
+    def removerProduto(self, nome):
+        estoque = DaoEstoque.ler()
+        produto_encontrado = list(filter(lambda item: item.produto.nome == nome, estoque))
+
+        if produto_encontrado:
+            for i in range(len(estoque)):
+                if estoque[i].produto.nome == nome:
+                    del estoque[i]  # Remover da memória
+                    print('Produto removido com sucesso!')
+                    break
+        else:
+            print('Produto que deseja remover não existe.')
+
+        with open('estoque.txt', 'w') as file_object:
+            for item in estoque:
+                file_object.write(f"{item.produto.nome}|{item.produto.preco}|"
+                                f"{item.produto.categoria}|{item.quantidade}\n")
+
+
 a = ControllerEstoque()
-a.cadastrarProduto('Banana','5','Frutas',10)
+a.removerProduto('Maçã')
+""" a.cadastrarProduto('Maçã','5','Frutas',10) """

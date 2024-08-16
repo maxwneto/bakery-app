@@ -2,9 +2,8 @@ from models import  *
 class DaoCategoria:
     @classmethod
     def salvar(cls, categoria):
-        with open('categoria.txt','a') as file_object:
-            file_object.writelines(categoria)
-            file_object.writelines('\n')
+        with open('categoria.txt', 'a') as file_object:
+            file_object.write(f"{categoria}\n")
 
     @classmethod
     def ler(cls):
@@ -20,15 +19,19 @@ class DaoCategoria:
             
             return catList
 
+    @classmethod
+    def atualizarArquivo(cls, categorias):
+        with open('categoria.txt', 'w') as file_object:
+            for categoria in categorias:
+                file_object.write(f"{categoria.categoria}\n")
+
 class DaoVenda:    
     @classmethod
-    def salvar(cls, venda:Venda):
-        with open('venda.txt','a') as    file_object:
-            file_object.writelines(venda.itensVendidos.nome + "|" + venda.itensVendidos.preco + "|" + 
-                                    venda.itensVendidos.categoria + "|" + 
-                                    venda.vendedor + "|" + venda.cliente + "|" + str(venda.quantidadeVendida)
-                                    + "|" + venda.data)
-            file_object.writelines('\n')
+    def salvar(cls, venda: Venda):
+        with open('venda.txt', 'a') as file_object:
+            file_object.write(f"{venda.itensVendidos.nome}|{venda.itensVendidos.preco}|"
+                              f"{venda.itensVendidos.categoria}|{venda.vendedor}|"
+                              f"{venda.cliente}|{venda.quantidadeVendida}|{venda.data}\n")
 
     @classmethod
     def ler(cls):
@@ -47,34 +50,29 @@ class DaoVenda:
 class DaoEstoque:
     @classmethod
     def salvar(cls, produto: Produto, quantidade):
-        with open ('estoque.txt', 'a') as file_object:
-            file_object.writelines(produto.nome + "|" + produto.preco + "|" +
-                                   produto.categoria + "|" + str(quantidade))
-            file_object.writelines('\n')
+        with open('estoque.txt', 'a') as file_object:
+            file_object.write(f"{produto.nome}|{produto.preco}|{produto.categoria}|{str(quantidade)}\n")
 
     @classmethod
     def ler(cls):
-        with open('estoque.txt','r') as file_object:
-            cls.estoque = file_object.readlines()
+        with open('estoque.txt', 'r') as file_object:
+            linhas_estoque = file_object.readlines()
 
-        cls.estoque = list(map(lambda x: x.replace ('\n',''), cls.estoque))
-        cls.estoque = list(map(lambda x: x.split('|'), cls.estoque))
-
-        estoque_list= []
-        if len(cls.estoque) > 0:
-            for i in cls.estoque:
-                estoque_list.append(Estoque(Produto(i[0],i[1], i[2], i[3])))
+        estoque_list = []
+        for linha in linhas_estoque:
+            dados = linha.strip().split('|')
+            produto = Produto(dados[0], dados[1], dados[2])
+            quantidade = int(dados[3])
+            estoque_list.append(Estoque(produto, quantidade))
 
         return estoque_list
     
 class DaoFornecedor:
     @classmethod
     def salvar(cls, fornecedor: Fornecedor):
-        with open('fornecedor.txt','a') as file_object:
-            file_object.writelines(fornecedor.nome + "|" + fornecedor.cnpj + "|" + fornecedor.telefone + 
-                                   "|" + fornecedor.categoria)
-            file_object.writelines('\n')
-
+        with open('fornecedor.txt', 'a') as file_object:
+            file_object.write(f"{fornecedor.nome}|{fornecedor.cnpj}|{fornecedor.telefone}|{fornecedor.categoria}\n")
+   
     @classmethod
     def ler(cls):
         with open('fornecedores.txt', 'r') as file_object:
@@ -91,11 +89,9 @@ class DaoFornecedor:
         
 class DaoEmpregado:
     @classmethod
-    def salvar(cls, empregado: Empregado):
-        with open('empregado.txt','a') as file_object:
-            file_object.writelines(empregado.nome + "|" + empregado.cnpj + "|" + empregado.telefone + 
-                                   "|" + empregado.categoria)
-            file_object.writelines('\n')
+    def salvar(cls, fornecedor: Fornecedor):
+        with open('fornecedor.txt', 'a') as file_object:
+            file_object.write(f"{fornecedor.nome}|{fornecedor.cnpj}|{fornecedor.telefone}|{fornecedor.categoria}\n")
 
     @classmethod
     def ler(cls):

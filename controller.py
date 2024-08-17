@@ -29,7 +29,7 @@ class ControllerCategoria:
                     print(f"Categoria '{categoriaRemover}' removida com sucesso")
                     break            
 
-            DaoCategoria.atualizarArquivo(x)
+            DaoCategoria.atualizarCategoria(x)
 
     def alterarCategoria(self, alterarCategoria, categoriaDesejada):
         x = DaoCategoria.ler()
@@ -95,8 +95,30 @@ class ControllerEstoque:
             for item in estoque:
                 file_object.write(f"{item.produto.nome}|{item.produto.preco}|"
                                 f"{item.produto.categoria}|{item.quantidade}\n")
+    def alterarProduto(self, nomeAlterar, novoNome, novoPreco, novaCategoria, novaQuantidade):
+        x = DaoEstoque.ler()
+        y = DaoCategoria.ler()
+        h = list(filter(lambda x : x.categoria == novaCategoria, y))
+
+        if len(h) > 0 :
+            estoque = list(filter(lambda x : x.produto.nome == nomeAlterar, x))
+            if len(estoque) > 0:
+                estoque = list(filter(lambda x : x.produto.nome == novoNome, x))
+                if len(estoque) == 0:
+                    x = list(map(lambda x: Estoque(Produto(novoNome, novoPreco, novaCategoria), novaQuantidade)if(x.produto.nome == nomeAlterar) else(x), x))
+                    print('Produto alterado com sucesso.')
+                else:
+                    print('Produto já cadastrado.')
+            else:
+                print('O produto que deseja alterar não existe.')
+            
+            DaoEstoque.atualizarProduto(x)
+
+        else:
+            print('A categoria informada não existe.')
+        
 
 
 a = ControllerEstoque()
-a.removerProduto('Maçã')
-""" a.cadastrarProduto('Maçã','5','Frutas',10) """
+""" a.cadastrarProduto('Maçã','6.00','Frutas',3) """
+a.alterarProduto('Maçã', 'Maçã Verde', '5.00', 'Frutas', 10)

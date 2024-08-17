@@ -20,7 +20,7 @@ class DaoCategoria:
             return catList
 
     @classmethod
-    def atualizarArquivo(cls, categorias):
+    def atualizarCategoria(cls, categorias):
         with open('categoria.txt', 'w') as file_object:
             for categoria in categorias:
                 file_object.write(f"{categoria.categoria}\n")
@@ -66,6 +66,12 @@ class DaoEstoque:
             estoque_list.append(Estoque(produto, quantidade))
 
         return estoque_list
+
+    @classmethod
+    def atualizarProduto(cls, estoque_list):
+        with open('estoque.txt', 'w') as file_object:
+            for item in estoque_list:
+                file_object.write(f"{item.produto.nome}|{item.produto.preco}|{item.produto.categoria}|{str(item.quantidade)}\n")
     
 class DaoFornecedor:
     @classmethod

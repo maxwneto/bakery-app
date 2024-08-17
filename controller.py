@@ -117,8 +117,22 @@ class ControllerEstoque:
         else:
             print('A categoria informada não existe.')
         
-
+    def mostrarEstoque(self):
+        estoque = DaoEstoque.ler()
+        if len(estoque) == 0:
+            print('Estoque vazio.')
+        else:
+            print('##### Produtos: #####')
+            print('---------------------')
+            for i in estoque:               
+                print(f'Nome: {i.produto.nome}\n'
+                      f'Preço: {i.produto.preco}\n'
+                      f'Categoria: {i.produto.categoria}\n'
+                      f'Quantidade: {i.quantidade}')
+                print('---------------------')
+                    
 
 a = ControllerEstoque()
+a.mostrarEstoque()
 """ a.cadastrarProduto('Maçã','6.00','Frutas',3) """
-a.alterarProduto('Maçã', 'Maçã Verde', '5.00', 'Frutas', 10)
+""" a.alterarProduto('Maçã', 'Maçã Verde', '5.00', 'Frutas', 10) """

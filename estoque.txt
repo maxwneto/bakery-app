@@ -1,1 +1,2 @@
 Banana|5|Frutas|10
+Maçã Verde|5.00|Frutas|10

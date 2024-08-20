@@ -1,2 +1,2 @@
-banana|5|frutas|3|Heitor|Max|12/08/24
-abacate|9|frutas|2|Heitor|Max|12/08/24
+Maçã Verde|5.00|Frutas|Joyce|Max|3|20/08/24
+Contra filé|49.90|Carne|William|Heitor|2|20/08/24

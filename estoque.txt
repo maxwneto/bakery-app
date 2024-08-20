@@ -1,2 +1,1 @@
-Banana|5|Frutas|10
-Maçã Verde|5.00|Frutas|10
+Contra filé|49.90|Carne|98

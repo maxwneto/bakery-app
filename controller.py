@@ -3,7 +3,7 @@ from dao import *
 from datetime import datetime
 
 class ControllerCategoria:
-    def cadastraCategoria(self, novaCategoria):
+    def cadastrarCategoria(self, novaCategoria):
         existe = False
         x = DaoCategoria.ler()
         for i in x:
@@ -131,8 +131,48 @@ class ControllerEstoque:
                       f'Quantidade: {i.quantidade}')
                 print('---------------------')
                     
+class ControllerVenda:
+    def cadastrarVenda(self, nomeProduto, vendedor, cliente, quantidadeVendida):
+        x = DaoEstoque.ler()
+        temp = []
+        existe = False
+        quantidade = False
 
-a = ControllerEstoque()
-a.mostrarEstoque()
-""" a.cadastrarProduto('Maçã','6.00','Frutas',3) """
+        for i in x:
+            if existe == False:
+                if i.produto.nome == nomeProduto:
+                    existe = True
+                    if i.quantidade >= quantidadeVendida:
+                        quantidade = True
+                        i.quantidade = int(i.quantidade) - int(quantidadeVendida)
+
+                        vendido = Venda(Produto(i.produto.nome,i.produto.preco, i.produto.categoria), 
+                                        quantidadeVendida, vendedor, cliente)
+                        valorCompra = int(quantidadeVendida) * float(i.produto.preco)
+                        DaoVenda.salvar(vendido)
+        
+        temp.append([Produto(i.produto.nome,i.produto.preco, i.produto.categoria),i.quantidade])
+
+        file_object = open('estoque.txt','w')
+        file_object.write = ("")
+
+        for i in temp:
+            with open('estoque.txt', 'a') as file_object:
+                file_object.writelines(f"{i[0].nome}|{i[0].preco}|{i[0].categoria}|{i[1]}\n")
+        
+        if not existe:
+            print('O produto não existe.')
+            return None
+        elif not quantidade:
+            print('Quantidade insuficiente em estoque.')
+        else:
+            return valorCompra
+
+
+
+
+a = ControllerVenda()
+a.cadastrarVenda('Contra filé','William','Heitor',2)
+""" a = ControllerEstoque()
+a.cadastrarProduto('Contra filé','49.90','Carne',100) """
 """ a.alterarProduto('Maçã', 'Maçã Verde', '5.00', 'Frutas', 10) """
